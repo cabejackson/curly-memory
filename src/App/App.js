@@ -7,12 +7,15 @@ import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
 import ApiContext from '../ApiContext';
 import config from '../config';
+import AddFolder from '../AddFolder';
+
 import './App.css';
 
 class App extends Component {
     state = {
         notes: [],
-        folders: []
+        folders: [],
+        value:''
     };
 
     componentDidMount() {
@@ -42,6 +45,18 @@ class App extends Component {
         });
     };
 
+    // addFolder = folder => {
+    //     this.setState({
+    //         folders: this.state.folders.map(folder => folder.id)
+    //     })
+    // }
+
+    handleChange = (event) => {
+        this.setState({
+            value: event.target.value
+        });
+      }
+
     renderNavRoutes() {
         return (
             <>
@@ -54,7 +69,7 @@ class App extends Component {
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageNav} />
-                <Route path="/add-folder" component={NotePageNav} />
+                <Route path="/add-folder" component={NotePageNav} /> 
                 <Route path="/add-note" component={NotePageNav} />
             </>
         );
@@ -75,12 +90,13 @@ class App extends Component {
             </>
         );
     }
-
     render() {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            value: this.state.value,
+            handleChange: this.handleChange
         };
         return (
             <ApiContext.Provider value={value}>
@@ -93,6 +109,9 @@ class App extends Component {
                         </h1>
                     </header>
                     <main className="App__main">{this.renderMainRoutes()}</main>
+                    <AddFolder>    
+                    </AddFolder>
+         
                 </div>
             </ApiContext.Provider>
         );
