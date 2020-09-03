@@ -8,6 +8,8 @@ export default function NotefulForm(props) {
       className={['Noteful-form', className].join(' ')}
       action='#'
       {...otherProps}
-    />
+    >
+     
+    </form>
   )
 }

@@ -7,7 +7,8 @@ import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
 import ApiContext from '../ApiContext';
 import config from '../config';
-import AddFolder from '../AddFolder';
+import AddFolder from '../AddFolder/AddFolder';
+// import AddNote from '../AddNote/AddNote';
 
 import './App.css';
 
@@ -39,11 +40,11 @@ class App extends Component {
             });
     }
 
-    handleDeleteNote = noteId => {
-        this.setState({
-            notes: this.state.notes.filter(note => note.id !== noteId)
-        });
-    };
+    // handleDeleteNote = noteId => {
+    //     this.setState({
+    //         notes: this.state.notes.filter(note => note.id !== noteId)
+    //     });
+    // };
 
     // addFolder = folder => {
     //     this.setState({
@@ -86,6 +87,8 @@ class App extends Component {
                         component={NoteListMain}
                     />
                 ))}
+                
+                <Route path="/add-folder" component={AddFolder} />
                 <Route path="/note/:noteId" component={NotePageMain} />
             </>
         );
@@ -108,9 +111,8 @@ class App extends Component {
                             <FontAwesomeIcon icon="check-double" />
                         </h1>
                     </header>
-                    <main className="App__main">{this.renderMainRoutes()}</main>
-                    <AddFolder>    
-                    </AddFolder>
+                    <main className="App__main">{this.renderMainRoutes()}</main> 
+                 
          
                 </div>
             </ApiContext.Provider>
