@@ -9,6 +9,20 @@ export default function AddFolder (props) {
     //     super(props);
     //     nameInput = React.createRef();
     // };
+
+    handleSubmit = e => {
+        e.preventDefault()
+        const folder = {name: e.target.val()}
+
+        fetch(`${config.API_ENDPOINT}/folders`, {
+            method: 'POST',
+            header: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(folder),
+        })
+    }
+
     return (
         <ApiContext.Consumer>
             {context => {
@@ -17,9 +31,9 @@ export default function AddFolder (props) {
                 return (
                     <>
                     <h1>Hello</h1>
-                    <NotefulForm className="form-submission" onSubmit={e => console.log('the form has been submitted')} >
+                    <NotefulForm className="form-submission" onSubmit={e => console.log('the form has been submitted',handleSubmit)} >
                         <label htmlFor="folderName">
-                            <input type="text" name="folderName" onChange={e => context.handleChange(e.target.value)} value={context.value}>Folder Name</input>
+                            <input type="text" id="folderName" name="folderName" onChange={e => context.handleChange(e.target.value)} value={context.value}>Folder Name</input>
                         </label>
                         <button tyep="submit">Submit</button>
                     </NotefulForm>
