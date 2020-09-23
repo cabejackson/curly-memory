@@ -12,7 +12,6 @@ import AddNote from "../AddNote/AddNote";
 // import AddNote from '../AddNote/AddNote';
 
 import "./App.css";
-import ValidationError from "../ValidationError";
 import ErrorBoundary from "../ErrorBoundary";
 
 class App extends Component {
