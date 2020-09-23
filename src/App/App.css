@@ -1,13 +1,13 @@
-
 .App {
   --custom-font: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   display: grid;
-  grid-template-areas: "sidebar header" "sidebar main";
+  grid-template-areas: "sidebar header""sidebar main";
   grid-template-columns: 1fr 2.3fr;
   grid-template-rows: 120px 1fr;
   min-height: 100vh;
+  color: wheat
 }
 
 .App__nav {
@@ -38,3 +38,11 @@
   height: calc(100vh - 120px);
   overflow: auto;
 }
+
+/* input {
+  color: white;
+  background-color: #102541;
+
+}
+
+*/

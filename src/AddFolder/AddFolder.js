@@ -1,59 +1,65 @@
-import React, { Component }  from 'react';
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types';
-import ApiContext from '../ApiContext';
-import config from '../config';
+import React from "react";
+import PropTypes from "prop-types";
+import ApiContext from "../ApiContext";
+import config from "../config";
 
-export default function AddFolder (props) {
-    // constructor(props) {
-    //     super(props);
-    //     nameInput = React.createRef();
-    // };
+// Create a new component AddFolder
+// that implements a form to capture
+// the name of a new folder from the user
 
-    const handleSubmit = event => {
-        event.preventDefault()
-        const folder = {name: event.target.val()}
+export default function AddFolder(props) {
+  // handles the form submission
+  // adds a new folder to the sever
+  // which appears on the main page
+  const handleSubmit = (name) => {
+    const folder = { name };
+    // console.log("this is the name", name);
+    fetch(`${config.API_ENDPOINT}/folders`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(folder)
+    });
+  };
 
-        fetch(`${config.API_ENDPOINT}/folders`, {
-            method: 'POST',
-            header: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(folder),
-        })
-    }
+  AddFolder.prototype = {
+    folder: PropTypes.string.isRequired
+  };
 
-    AddFolder.prototype = {
-        folder: PropTypes.string.isRequired,
-    }
-
-    return (
-        <ApiContext.Consumer>
-            {context => {
-                // console.log(context);
-                console.log('add folder is running')
-                return (
-                    <>
-                    <form className="form-submission" 
-                    onSubmit= {e => console.log('the form has been submitted',handleSubmit)}>
-                        <label htmlFor="folderName">Folder Name:
-                        <input 
-                        type="text" 
-                        id="folderName" 
-                        name="folderName" 
-                        onChange={e => context.handleChange(e.target.value)} 
-                        value={context.value}/>
-                        
-                        </label>
-                        <button type="submit">Submit</button>
-                    </form>
-                    </>
-                )
-                }}
-        </ApiContext.Consumer>
-
-    )
-
-};
-
-
+  return (
+    <ApiContext.Consumer>
+      {(context) => {
+        // console.log(context);
+        console.log("add folder is running");
+        return (
+          <>
+            {/* <h1>Test</h1> */}
+            <form
+              className="form-submission"
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("the form has been submitted");
+                handleSubmit(context.value);
+              }}
+            >
+              <label htmlFor="folderName">
+                Folder Name:
+                <input
+                  type="text"
+                  id="folderName"
+                  name="folderName"
+                  onChange={(e) =>
+                    context.handleFolderNameChange(e.target.value)
+                  }
+                />
+                {/* // value={context.value} */}
+              </label>
+              <button type="submit">Submit</button>
+            </form>
+          </>
+        );
+      }}
+    </ApiContext.Consumer>
+  );
+}
