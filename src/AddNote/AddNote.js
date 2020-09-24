@@ -30,7 +30,10 @@ export default function AddNote(props) {
     })
       .then((res) => res.json())
 
-      .then((data) => console.log("this is data:", data));
+      .then((data) => console.log("this is data:", data))
+      .catch((error) => {
+        console.error({ error });
+      });
   };
 
   // validates that a note is given
