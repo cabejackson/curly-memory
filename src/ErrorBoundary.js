@@ -11,7 +11,12 @@ export default class ErrorBoundary extends Component {
   }
   render() {
     if (this.state.hasError) {
-      return <h2>Could not display this note.</h2>;
+      return (
+        <>
+          <h2>Yikes something went wrong here!!</h2>
+          <p>well this is awkward...</p>
+        </>
+      );
     }
     return this.props.children;
   }

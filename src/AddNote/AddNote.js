@@ -10,13 +10,13 @@ import ValidationError from "../ValidationError";
 export default function AddNote(props) {
   // handles the note form submission
   // adds a new note to the sever
-  // which appears on the main page, but not within the folders
+  // which appears on the main page & within the folders
   const handleAddNote = (name, content, folderId) => {
     console.log("this is the value of content:", content);
     let newNote = {
-      id: cuid(),
+      id: cuid(), //id is automatically created, but I used the cuid() for the ID
       name,
-      modified: new Date(), //this is automatically created
+      modified: new Date(),
       folderId,
       content
     };
@@ -33,19 +33,22 @@ export default function AddNote(props) {
       .then((data) => console.log("this is data:", data));
   };
 
-  // validation goes here
+  // validates that a note is given
   const validateName = (noteNameValue) => {
     console.log("this is name:", noteNameValue);
-    if (noteNameValue.length < 2) return "You need a name!"; // (noteNameValue.length < 2) OR noteNameValue == 0
+    if (noteNameValue.length < 2) return "You need a name!";
   };
 
+  // validates that note content is given
   const validateDesc = (noteContentValue) => {
     console.log("this is content:", noteContentValue);
     if (!noteContentValue) return "You need a description!!";
   };
-
+  // proptype requirement met here:
   AddNote.prototype = { note: PropTypes.string.isRequired };
 
+  //note: the ApiContext.Consumer gives this component acess to context,
+  //which comes from app.js Provider
   return (
     <ApiContext.Consumer>
       {(context) => {
@@ -71,11 +74,8 @@ export default function AddNote(props) {
                 name="noteName"
                 onChange={(e) => context.handleNoteNameChange(e.target.value)}
               />
-              {/* <pre>{JSON.stringify(context, null, 2)}</pre> */}
+              {/* <pre>{JSON.stringify(context, null, 2)}</pre> //this was useful for looking at context*/}
               <ValidationError message={validateName(context.noteNameValue)} />
-
-              {/* value={context.noteNameValue} */}
-              {/* <ValidationError message={validateName()} /> */}
               <label htmlFor="noteContent">
                 Content:
                 <input
@@ -89,7 +89,6 @@ export default function AddNote(props) {
                 <ValidationError
                   message={validateDesc(context.noteContentValue)}
                 />
-                {/* // value={context.noteContentValue} */}
               </label>
               <select
                 type="text"
@@ -98,10 +97,11 @@ export default function AddNote(props) {
                   console.log(
                     "this is FOLDER ID(or some folder identifier):",
                     e.target.value
-                  ); //this is the folder ID // tried context.noteFolderIdValue
+                  );
                   context.handleChooseFolder(e.target.value);
                 }}
               >
+                {/* folder.id is the value like for the backend, but folder.name is what the users see */}
                 {context.folders.map((folder, key) => (
                   <option value={folder.id} key={key}>
                     {folder.name}

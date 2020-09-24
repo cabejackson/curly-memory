@@ -9,22 +9,21 @@ import ApiContext from "../ApiContext";
 import config from "../config";
 import AddFolder from "../AddFolder/AddFolder";
 import AddNote from "../AddNote/AddNote";
-// import AddNote from '../AddNote/AddNote';
-
 import "./App.css";
 import ErrorBoundary from "../ErrorBoundary";
 
-class App extends Component {
+export default class App extends Component {
+  // first set state
   state = {
     notes: [],
     folders: [],
-    value: "", //value is the user input
+    value: "",
     noteFolderIdValue: "",
     folderName: "",
     noteValue: "",
     noteNameValue: "",
     noteContentValue: ""
-  };
+  }; //value is the user input
 
   componentDidMount() {
     Promise.all([
@@ -39,17 +38,14 @@ class App extends Component {
         return Promise.all([notesRes.json(), foldersRes.json()]);
       })
       .then(([notes, folders]) => {
-        this.setState({
-          notes,
-          folders
-        });
+        this.setState({ notes, folders });
       })
       .catch((error) => {
-        console.error({
-          error
-        });
+        console.error({ error });
       });
   }
+
+  // set-up event handlers which will be passed down to components
 
   handleDeleteNote = (noteId) => {
     this.setState({
@@ -62,6 +58,8 @@ class App extends Component {
     this.setState({ value });
   };
 
+  //Here's the DRY method of doing things,
+  //will try refactoring app to do this after graded submission passes
   // handleInputChange = (e) => {
   //   console.log("test");
   //   // Here, e is the event.
@@ -101,6 +99,8 @@ class App extends Component {
     );
   }
 
+  //fix paths so they take user to an "addFolder" and a "addNote" page
+
   renderMainRoutes() {
     return (
       <>
@@ -113,24 +113,27 @@ class App extends Component {
       </>
     );
   }
+  // context provider wraps around the app & value is set to the value obj
+  //value is whats being passed to the child components of app via consumer
+
+  // error boundary wraps around the whole app,
+  // you can break the app by commenting out lines inside the value obj (like line 129 - noteNameValue: ...)
+  // then try adding a note
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
-      deleteNote: this.handleDeleteNote,
-      value: this.state.value,
-      nameFolder: this.state.nameFolder,
-      noteValue: this.state.noteValue,
+      deleteNote: this.handleDeleteNote, // value: this.state.value,
+      // noteValue: this.state.noteValue,
       setContextState: (newState) => this.setState(newState),
       noteNameValue: this.state.noteNameValue,
       noteContentValue: this.state.noteContentValue,
       noteFolderIdValue: this.state.noteFolderIdValue,
-      handleInputChange: this.handleInputChange,
       handleFolderNameChange: this.handleFolderNameChange,
-      handleNoteContentChange: this.handleNoteContentChange,
       handleNoteNameChange: this.handleNoteNameChange,
+      handleNoteContentChange: this.handleNoteContentChange,
       handleChooseFolder: this.handleChooseFolder
-    }; // noteNameValue: (noteName) => this.setState({ noteName }),
+    };
     return (
       <ErrorBoundary>
         <ApiContext.Provider value={value}>
@@ -150,4 +153,4 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default App;

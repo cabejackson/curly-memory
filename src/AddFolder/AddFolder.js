@@ -22,11 +22,11 @@ export default function AddFolder(props) {
       body: JSON.stringify(folder)
     });
   };
+  // proptype requirement met here:
+  AddFolder.prototype = { folder: PropTypes.string.isRequired };
 
-  AddFolder.prototype = {
-    folder: PropTypes.string.isRequired
-  };
-
+  //note: the ApiContext.Consumer gives this component acess to context,
+  //which comes from app.js Provider
   return (
     <ApiContext.Consumer>
       {(context) => {
@@ -34,7 +34,6 @@ export default function AddFolder(props) {
         console.log("add folder is running");
         return (
           <>
-            {/* <h1>Test</h1> */}
             <form
               className="form-submission"
               onSubmit={(e) => {
@@ -53,7 +52,6 @@ export default function AddFolder(props) {
                     context.handleFolderNameChange(e.target.value)
                   }
                 />
-                {/* // value={context.value} */}
               </label>
               <button type="submit">Submit</button>
             </form>
