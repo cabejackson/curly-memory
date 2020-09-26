@@ -123,7 +123,8 @@ export default class App extends Component {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
-      deleteNote: this.handleDeleteNote, // value: this.state.value,
+      deleteNote: this.handleDeleteNote,
+      value: this.state.value,
       // noteValue: this.state.noteValue,
       setContextState: (newState) => this.setState(newState),
       noteNameValue: this.state.noteNameValue,

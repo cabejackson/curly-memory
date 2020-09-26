@@ -19,9 +19,9 @@ export default function AddFolder(props) {
       headers: {
         "content-type": "application/json"
       },
-      body: JSON.stringify(folder).catch((error) => {
-        console.error({ error });
-      })
+      body: JSON.stringify(folder)
+    }).catch((error) => {
+      console.error({ error });
     });
   };
   // proptype requirement met here:
