@@ -4,6 +4,7 @@ import ApiContext from "../ApiContext";
 import config from "../config";
 import cuid from "cuid";
 import ValidationError from "../ValidationError";
+import ErrorBoundary from "../ErrorBoundary";
 
 // Create a new component AddNote that implements a form
 // to capture the name, content and folder for a new Note.
@@ -47,75 +48,101 @@ export default function AddNote(props) {
     console.log("this is content:", noteContentValue);
     if (!noteContentValue) return "You need a description!!";
   };
+
+  // validates that note folder is given
+  const validateFolder = (noteFolderIdValue) => {
+    console.log("this is folder:", noteFolderIdValue);
+    if (noteFolderIdValue === null) return "You need to select a folder!!";
+  };
+
   // proptype requirement met here:
-  AddNote.prototype = { note: PropTypes.string.isRequired };
+  // .isRequired added here
+  AddNote.prototype = {
+    note: PropTypes.string.isRequired
+  };
 
   //note: the ApiContext.Consumer gives this component acess to context,
   //which comes from app.js Provider
   return (
-    <ApiContext.Consumer>
-      {(context) => {
-        // console.log(context);
-        console.log("add note is running");
-        return (
-          <>
-            <form
-              className="form-submission"
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("the NOTE form has been submitted", context);
-                handleAddNote(
-                  context.noteNameValue,
-                  context.noteContentValue,
-                  context.noteFolderIdValue
-                );
-              }}
-            >
-              <label htmlFor="noteName"> Name: </label>
-              <input
-                type="text"
-                name="noteName"
-                onChange={(e) => context.handleNoteNameChange(e.target.value)}
-              />
-              {/* <pre>{JSON.stringify(context, null, 2)}</pre> //this was useful for looking at context*/}
-              <ValidationError message={validateName(context.noteNameValue)} />
-              <label htmlFor="noteContent">
-                Content:
-                <input
-                  type="text"
-                  id="noteContent"
-                  name="content"
-                  onChange={(e) =>
-                    context.handleNoteContentChange(e.target.value)
-                  }
-                />
-                <ValidationError
-                  message={validateDesc(context.noteContentValue)}
-                />
-              </label>
-              <select
-                type="text"
-                name="folderName"
-                onChange={(e) => {
-                  console.log(
-                    "this is FOLDER ID(or some folder identifier):",
-                    e.target.value
+    <ErrorBoundary>
+      <ApiContext.Consumer>
+        {(context) => {
+          // console.log(context);
+          console.log("add note is running");
+          return (
+            <>
+              <form
+                className="form-submission"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log("the NOTE form has been submitted", context);
+                  handleAddNote(
+                    context.noteNameValue,
+                    context.noteContentValue,
+                    context.noteFolderIdValue
                   );
-                  context.handleChooseFolder(e.target.value);
                 }}
               >
-                {/* folder.id is the value like for the backend, but folder.name is what the users see */}
-                {context.folders.map((folder, key) => (
-                  <option value={folder.id} key={key}>
-                    {folder.name}
-                  </option>
-                ))}
-              </select>
-              <button type="submit">Save Note</button>
-            </form>
-          </>
-        );
-      }}
-    </ApiContext.Consumer>
+                <label htmlFor="noteName"> Name: </label>
+                <input
+                  type="text"
+                  name="noteName"
+                  onChange={(e) => context.handleNoteNameChange(e.target.value)}
+                  required
+                />
+                {/* <pre>{JSON.stringify(context, null, 2)}</pre> //this was useful for looking at context*/}
+                <ValidationError
+                  message={validateName(context.noteNameValue)}
+                />
+                <label htmlFor="noteContent">
+                  Content:
+                  <input
+                    type="text"
+                    id="noteContent"
+                    name="content"
+                    onChange={(e) =>
+                      context.handleNoteContentChange(e.target.value)
+                    }
+                    required
+                  />
+                  <ValidationError
+                    message={validateDesc(context.noteContentValue)}
+                  />
+                </label>
+                <label htmlFor="folderId">
+                  Choose a Folder:
+                  <select
+                    type="text"
+                    id="folderId"
+                    name="folderName"
+                    onChange={(e) => {
+                      console.log(
+                        "this is FOLDER ID(or some folder identifier):",
+                        e.target.value
+                      );
+                      context.handleChooseFolder(e.target.value);
+                    }}
+                    required
+                  >
+                    {/* folder.id is the value like for the backend, but folder.name is what the users see */}
+                    {/* <option defaultValue={null}>-- select one --</option> */}
+                    {context.folders.map((folder, key) => (
+                      <option value={folder.id} key={key}>
+                        {folder.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ValidationError
+                    message={validateFolder(context.noteFolderIdValue)}
+                  />
+                </label>
+
+                <button type="submit">Save Note</button>
+              </form>
+            </>
+          );
+        }}
+      </ApiContext.Consumer>
+    </ErrorBoundary>
   );
 }

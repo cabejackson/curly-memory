@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ApiContext from "../ApiContext";
 import config from "../config";
+import ErrorBoundary from "../ErrorBoundary";
 
 // Create a new component AddFolder
 // that implements a form to capture
@@ -21,45 +22,52 @@ export default function AddFolder(props) {
       },
       body: JSON.stringify(folder)
     }).catch((error) => {
-      console.error({ error });
+      console.error({
+        error
+      });
     });
   };
   // proptype requirement met here:
+  // .isRequired added here
+
   AddFolder.prototype = { folder: PropTypes.string.isRequired };
 
   //note: the ApiContext.Consumer gives this component acess to context,
   //which comes from app.js Provider
   return (
-    <ApiContext.Consumer>
-      {(context) => {
-        // console.log(context);
-        console.log("add folder is running");
-        return (
-          <>
-            <form
-              className="form-submission"
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log("the form has been submitted");
-                handleSubmit(context.value);
-              }}
-            >
-              <label htmlFor="folderName">
-                Folder Name:
-                <input
-                  type="text"
-                  id="folderName"
-                  name="folderName"
-                  onChange={(e) =>
-                    context.handleFolderNameChange(e.target.value)
-                  }
-                />
-              </label>
-              <button type="submit">Submit</button>
-            </form>
-          </>
-        );
-      }}
-    </ApiContext.Consumer>
+    <ErrorBoundary>
+      <ApiContext.Consumer>
+        {(context) => {
+          // console.log(context);
+          console.log("add folder is running");
+          return (
+            <>
+              <form
+                className="form-submission"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log("the form has been submitted");
+                  handleSubmit(context.value);
+                }}
+              >
+                <label htmlFor="folderName">
+                  Folder Name:
+                  <input
+                    type="text"
+                    id="folderName"
+                    name="folderName"
+                    onChange={(e) =>
+                      context.handleFolderNameChange(e.target.value)
+                    }
+                    required
+                  />
+                </label>
+                <button type="submit">Submit</button>
+              </form>
+            </>
+          );
+        }}
+      </ApiContext.Consumer>
+    </ErrorBoundary>
   );
 }
