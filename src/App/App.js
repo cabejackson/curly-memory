@@ -18,7 +18,7 @@ export default class App extends Component {
     notes: [],
     folders: [],
     value: "",
-    noteFolderIdValue: "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1",
+    noteFolderIdValue: "",
     folderName: "",
     noteValue: "",
     noteNameValue: "",

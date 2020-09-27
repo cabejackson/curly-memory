@@ -123,9 +123,10 @@ export default function AddNote(props) {
                       context.handleChooseFolder(e.target.value);
                     }}
                     required
+                    defaultValue=""
                   >
                     {/* folder.id is the value like for the backend, but folder.name is what the users see */}
-                    {/* <option defaultValue={null}>-- select one --</option> */}
+                    <option value="">-- select one --</option>
                     {context.folders.map((folder, key) => (
                       <option value={folder.id} key={key}>
                         {folder.name}
