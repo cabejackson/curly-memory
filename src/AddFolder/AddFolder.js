@@ -21,15 +21,22 @@ export default function AddFolder(props) {
         "content-type": "application/json"
       },
       body: JSON.stringify(folder)
-    }).catch((error) => {
-      console.error({
-        error
+    })
+      // .then(() => {
+      //   props.addFolder(name);
+      //   console.log("Look Here", name);
+      //   // props.setState({
+      //   //   folder: [...props.folder.name]
+      //   // });
+      // })
+      .catch((error) => {
+        console.error({
+          error
+        });
       });
-    });
   };
   // proptype requirement met here:
   // .isRequired added here
-
   AddFolder.prototype = { folder: PropTypes.string.isRequired };
 
   //note: the ApiContext.Consumer gives this component acess to context,

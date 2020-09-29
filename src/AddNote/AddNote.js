@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import ApiContext from "../ApiContext";
 import config from "../config";
 import cuid from "cuid";
@@ -55,11 +55,11 @@ export default function AddNote(props) {
     if (noteFolderIdValue === null) return "You need to select a folder!!";
   };
 
-  // proptype requirement met here:
-  // .isRequired added here
-  AddNote.prototype = {
-    note: PropTypes.string.isRequired
-  };
+  // // proptype requirement met here:
+  // // .isRequired added here
+  // AddNote.prototype = {
+  //   note: PropTypes.string.isRequired
+  // };
 
   //note: the ApiContext.Consumer gives this component acess to context,
   //which comes from app.js Provider

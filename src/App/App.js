@@ -58,6 +58,12 @@ export default class App extends Component {
     this.setState({ value });
   };
 
+  handleAddFolder = (folder) => {
+    this.setState({
+      folders: [...this.state.folders, folder]
+    });
+  };
+
   //Here's the DRY method of doing things,
   //will try refactoring app to do this after graded submission passes
   // handleInputChange = (e) => {
@@ -117,14 +123,14 @@ export default class App extends Component {
   //value is whats being passed to the child components of app via consumer
 
   // error boundary wraps around the whole app,
-  // you can break the app by commenting out lines inside the value obj (like line 129 - noteNameValue: ...)
+  // you can break the app by commenting out lines inside the value obj (like line 135 - noteNameValue: ...)
   // then try adding a note
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
-      value: this.state.value, // noteValue: this.state.noteValue,
+      value: this.state.value,
       setContextState: (newState) => this.setState(newState),
       noteNameValue: this.state.noteNameValue,
       noteContentValue: this.state.noteContentValue,
@@ -132,8 +138,9 @@ export default class App extends Component {
       handleFolderNameChange: this.handleFolderNameChange,
       handleNoteNameChange: this.handleNoteNameChange,
       handleNoteContentChange: this.handleNoteContentChange,
-      handleChooseFolder: this.handleChooseFolder
-    };
+      handleChooseFolder: this.handleChooseFolder,
+      handleAddFolder: this.handleAddFolder
+    }; // noteValue: this.state.noteValue,
     return (
       <ErrorBoundary>
         <ApiContext.Provider value={value}>
