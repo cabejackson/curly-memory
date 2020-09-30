@@ -113,17 +113,32 @@ export default class App extends Component {
         {["/", "/folder/:folderId"].map((path) => (
           <Route exact key={path} path={path} component={NoteListMain} />
         ))}
-        <Route path="/add-folder" component={AddFolder} />{" "}
+        <Route
+          path="/add-folder"
+          render={(rp) => (
+            <AddFolder handleAddFolder={this.handleAddFolder} {...rp} />
+          )}
+        />{" "}
         <Route path="/note/:noteId" component={NotePageMain} />{" "}
         <Route path="/add-note" component={AddNote} />{" "}
       </>
     );
   }
+
+  // Note still getting warning about an array:
+  // "Each child in an array or iterator should have a unique "key" prop."
+
+  //another way to use render props:
+  // render={(rp) => (
+  //           <AddFolder handleAddFolder={this.handleAddFolder} {...rp} />
+  //         )}
+  //the above would go inside the route tag^
+
   // context provider wraps around the app & value is set to the value obj
   //value is whats being passed to the child components of app via consumer
 
   // error boundary wraps around the whole app,
-  // you can break the app by commenting out lines inside the value obj (like line 135 - noteNameValue: ...)
+  // you can break the app by commenting out lines inside the value obj (like line 150 - noteNameValue: ...)
   // then try adding a note
   render() {
     const value = {

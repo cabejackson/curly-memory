@@ -22,13 +22,9 @@ export default function AddFolder(props) {
       },
       body: JSON.stringify(folder)
     })
-      // .then(() => {
-      //   props.addFolder(name);
-      //   console.log("Look Here", name);
-      //   // props.setState({
-      //   //   folder: [...props.folder.name]
-      //   // });
-      // })
+      .then(() => {
+        props.handleAddFolder(folder); //should this be ({ folder }) instead?
+      })
       .catch((error) => {
         console.error({
           error
