@@ -176,8 +176,8 @@ export default class App extends Component {
   }
 }
 
-// export default App;
 
 
-fetch(`${config.API_ENDPOINT}/prompts/reveal-cards`)
-  // fetch(`${config.API_ENDPOINT}/folders`)
+
+
+
