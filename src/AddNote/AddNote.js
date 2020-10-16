@@ -125,7 +125,7 @@ export default function AddNote(props) {
                     {/* folder.id is the value like for the backend, but folder.name is what the users see */}
                     <option value="">-- select one --</option>
                     {context.folders.map((folder, key) => (
-                      <option value={folder.id} key={key}>
+                      <option value={folder.folder_id} key={key}>
                         {folder.folder_name}
                       </option>
                     ))}
