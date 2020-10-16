@@ -9,7 +9,7 @@ import App from './App'
 
 library.add(faPlus, faChevronLeft, faTrashAlt, faCheckDouble)
 
-it('renders without crashing', () => {
+it.skip('renders without crashing', () => {
   const div = document.createElement('div')
   ReactDOM.render(
     <BrowserRouter>

@@ -38,13 +38,13 @@ export default class App extends Component {
         return Promise.all([notesRes.json(), foldersRes.json()]);
       })
       .then(([notes, folders]) => {
+        // console.log('this is notes/folders in .then', notes, folders);
         this.setState({ notes, folders });
       })
       .catch((error) => {
         console.error({ error });
       });
   }
-
   // set-up event handlers which will be passed down to components
 
   handleDeleteNote = (noteId) => {
@@ -54,7 +54,7 @@ export default class App extends Component {
   };
 
   handleFolderNameChange = (value) => {
-    console.log("test");
+    // console.log("test");
     this.setState({ value });
   };
 
@@ -79,17 +79,17 @@ export default class App extends Component {
   // };
 
   handleNoteNameChange = (noteNameValue) => {
-    console.log("handleNoteNameChange is working");
+    // console.log("handleNoteNameChange is working");
     this.setState({ noteNameValue });
   };
 
   handleNoteContentChange = (noteContentValue) => {
-    console.log("handleNoteContentChange is working");
+    // console.log("handleNoteContentChange is working");
     this.setState({ noteContentValue });
   };
 
   handleChooseFolder = (noteFolderIdValue) => {
-    console.log("handleChooseFolder is working");
+    // console.log("handleChooseFolder is working");
     this.setState({ noteFolderIdValue });
   };
 
@@ -156,6 +156,7 @@ export default class App extends Component {
       handleChooseFolder: this.handleChooseFolder,
       handleAddFolder: this.handleAddFolder
     }; // noteValue: this.state.noteValue,
+    // console.log(this.state.notes, this.state.folders);
     return (
       <ErrorBoundary>
         <ApiContext.Provider value={value}>
@@ -176,3 +177,7 @@ export default class App extends Component {
 }
 
 // export default App;
+
+
+fetch(`${config.API_ENDPOINT}/prompts/reveal-cards`)
+  // fetch(`${config.API_ENDPOINT}/folders`)

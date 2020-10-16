@@ -13,22 +13,21 @@ export default function AddFolder(props) {
   // adds a new folder to the sever
   // which appears on the main page
   const handleSubmit = (name) => {
-    const folder = { name };
+    const folder = { folder_name: name };
     // console.log("this is the name", name);
-    fetch(`${config.API_ENDPOINT}/folders`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(folder)
-    })
+    fetch(`${config.API_ENDPOINT}/folders`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(folder)
+      })
       .then(() => {
         props.handleAddFolder(folder); //should this be ({ folder }) instead?
       })
       .catch((error) => {
-        console.error({
-          error
-        });
+        console.error(error.message);
       });
   };
   // proptype requirement met here:
@@ -42,14 +41,14 @@ export default function AddFolder(props) {
       <ApiContext.Consumer>
         {(context) => {
           // console.log(context);
-          console.log("add folder is running");
+          // console.log("add folder is running");
           return (
             <>
               <form
                 className="form-submission"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  console.log("the form has been submitted");
+                  // console.log("the form has been submitted");
                   handleSubmit(context.value);
                 }}
               >

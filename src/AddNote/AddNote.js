@@ -12,23 +12,21 @@ export default function AddNote(props) {
   // handles the note form submission
   // adds a new note to the sever
   // which appears on the main page & within the folders
-  const handleAddNote = (name, content, folderId) => {
-    console.log("this is the value of content:", content);
+  const handleAddNote = (note_name, note_content, folder_id) => {
+    // console.log("this is the value of content:", content, name, folderId);
     let newNote = {
-      id: cuid(), //id is automatically created, but I used the cuid() for the ID
-      name,
-      modified: new Date(),
-      folderId,
-      content
-    };
+      note_name,
+      modified_date: new Date(),
+      folder_id,
+      note_content
+    }; //id is automatically created, but I used the cuid() for the ID
 
-    fetch(`${config.API_ENDPOINT}/notes`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(newNote)
-    })
+    fetch(`${config.API_ENDPOINT}/notes`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(newNote)
+      })
       .then((res) => res.json())
 
       .then((data) => console.log("this is data:", data))
@@ -39,19 +37,19 @@ export default function AddNote(props) {
 
   // validates that a note is given
   const validateName = (noteNameValue) => {
-    console.log("this is name:", noteNameValue);
+    // console.log("this is name:", noteNameValue);
     if (noteNameValue.length < 2) return "You need a name!";
   };
 
   // validates that note content is given
   const validateDesc = (noteContentValue) => {
-    console.log("this is content:", noteContentValue);
+    // console.log("this is content:", noteContentValue);
     if (!noteContentValue) return "You need a description!!";
   };
 
   // validates that note folder is given
   const validateFolder = (noteFolderIdValue) => {
-    console.log("this is folder:", noteFolderIdValue);
+    // console.log("this is folder:", noteFolderIdValue);
     if (noteFolderIdValue === null) return "You need to select a folder!!";
   };
 
@@ -68,14 +66,14 @@ export default function AddNote(props) {
       <ApiContext.Consumer>
         {(context) => {
           // console.log(context);
-          console.log("add note is running");
+          // console.log("add note is running");
           return (
             <>
               <form
                 className="form-submission"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  console.log("the NOTE form has been submitted", context);
+                  // console.log("the NOTE form has been submitted", context);
                   handleAddNote(
                     context.noteNameValue,
                     context.noteContentValue,
@@ -116,10 +114,10 @@ export default function AddNote(props) {
                     id="folderId"
                     name="folderName"
                     onChange={(e) => {
-                      console.log(
-                        "this is FOLDER ID(or some folder identifier):",
-                        e.target.value
-                      );
+                      // console.log(
+                      //   "this is FOLDER ID(or some folder identifier):",
+                      //   e.target.value
+                      // );
                       context.handleChooseFolder(e.target.value);
                     }}
                     required
@@ -129,7 +127,7 @@ export default function AddNote(props) {
                     <option value="">-- select one --</option>
                     {context.folders.map((folder, key) => (
                       <option value={folder.id} key={key}>
-                        {folder.name}
+                        {folder.folder_name}
                       </option>
                     ))}
                   </select>

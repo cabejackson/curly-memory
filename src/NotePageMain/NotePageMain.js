@@ -1,39 +1,40 @@
-import React from 'react'
-import Note from '../Note/Note'
-import ApiContext from '../ApiContext'
-import { findNote } from '../notes-helpers'
-import './NotePageMain.css'
+import React from "react";
+import Note from "../Note/Note";
+import ApiContext from "../ApiContext";
+import { findNote } from "../notes-helpers";
+import "./NotePageMain.css";
 
 export default class NotePageMain extends React.Component {
   static defaultProps = {
     match: {
       params: {}
     }
-  }
-  static contextType = ApiContext
+  };
+  static contextType = ApiContext;
 
-  handleDeleteNote = noteId => {
-    this.props.history.push(`/`)
-  }
+  handleDeleteNote = (noteId) => {
+    this.props.history.push(`/`);
+  };
 
   render() {
-    const { notes=[] } = this.context
-    const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || { content: '' }
+    const { notes = [] } = this.context;
+    const { noteId } = this.props.match.params;
+    const note = findNote(notes, parseInt(noteId)) || { note_content: "" };
+    // console.log(JSON.stringify(note));
     return (
-      <section className='NotePageMain'>
+      <section className="NotePageMain">
         <Note
           id={note.id}
-          name={note.name}
-          modified={note.modified}
+          note_name={note.note_name}
+          modified_date={note.modified_date}
           onDeleteNote={this.handleDeleteNote}
         />
-        <div className='NotePageMain__content'>
-          {note.content.split(/\n \r|\n/).map((para, i) =>
+        <div className="NotePageMain__content">
+          {note.note_content.split(/\n \r|\n/).map((para, i) => (
             <p key={i}>{para}</p>
-          )}
+          ))}
         </div>
       </section>
-    )
+    );
   }
 }
