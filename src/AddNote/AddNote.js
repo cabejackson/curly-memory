@@ -5,6 +5,19 @@ import config from "../config";
 import ValidationError from "../ValidationError";
 import ErrorBoundary from "../ErrorBoundary";
 
+
+// //add a state like:
+// state = {
+//   noteAddedSuccessful: false
+// }
+
+// // then in the render() add this:
+// if (this.state.loginSuccessful) {
+//   return <Redirect to="/tbr-game" />
+// }
+// // before the return
+
+
 // Create a new component AddNote that implements a form
 // to capture the name, content and folder for a new Note.
 export default function AddNote(props) {
@@ -27,8 +40,11 @@ export default function AddNote(props) {
         body: JSON.stringify(newNote)
       })
       .then((res) => res.json())
+      .then((data) => console.log("this is data:", data) || data)
+      .then((newNote) => {
+        props.handleAddNote(newNote); //should this be ({ folder }) instead?
+      })
 
-      .then((data) => console.log("this is data:", data))
       .catch((error) => {
         console.error({ error });
       });

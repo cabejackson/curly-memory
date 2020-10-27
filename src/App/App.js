@@ -64,6 +64,12 @@ export default class App extends Component {
     });
   };
 
+  handleAddNote = (note) => {
+    this.setState({
+      notes: [...this.state.notes, note]
+    });
+  };
+
   //Here's the DRY method of doing things,
   //will try refactoring app to do this after graded submission passes
   // handleInputChange = (e) => {
@@ -120,7 +126,12 @@ export default class App extends Component {
           )}
         />{" "}
         <Route path="/note/:noteId" component={NotePageMain} />{" "}
-        <Route path="/add-note" component={AddNote} />{" "}
+        <Route
+          path="/add-note"
+          render={(rp) => (
+            <AddNote handleAddNote={this.handleAddNote} {...rp} />
+          )}
+        />{" "}
       </>
     );
   }

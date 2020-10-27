@@ -9,7 +9,7 @@ export default function NotefulForm(props) {
       action='#'
       {...otherProps}
     >
-     
+
     </form>
   )
 }
